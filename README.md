@@ -1,18 +1,20 @@
 # graphhopper-api
 
-This project is a wrapper for making api requests to the direction api system of graphhopper company https://www.graphhopper.com/
+Graphhopper is powerful direction api to plannin you application [graphhopper](https://www.graphhopper.com/)
+
+This project is a wrapper for making api requests to the direction api
 
 The wrapper can be installed with the command
 
-* composer require iseed838 / graphhopper-api "master" command
+* **composer require iseed838 / graphhopper-api "master"**
 
 Currently 2 types of services are tied:
 * Route Api
 * Geocode Api
 
-1) Make route request:
+1) **Make route request:**
 
-<pre>
+```php
 $pathRequest = new \Graphhopper\Models\RouteRequest([
     'points'   => [
         '55.630358,37.516776',
@@ -24,11 +26,11 @@ $client = new \Graphhopper\Models\Clients\RouteClient([
     'key'                => '123-asd',
 ]);
 $pathResponse = $client->paths($pathRequest);
-</pre>
+```
 
-will be response:
+**will be response:**
 
-<pre>
+```php
 Graphhopper\Models\RouteResponse Object
 (
     [info:Graphhopper\Models\RouteResponse:private] => Array
@@ -62,12 +64,12 @@ Graphhopper\Models\RouteResponse Object
         )
 
 )
-</pre>
+```
 
-2) Make geocode request:
+2) **Make geocode request:**
 
 * query request
-<pre>
+```php
 $queryGeocodeRequest = new \Graphhopper\Models\GeocodeQueryRequest([
     'query' => 'Moscow Vavilova 6',
     'language' => \Graphhopper\Factory::LANGUAGE_EN
@@ -77,10 +79,10 @@ $client = new \Graphhopper\Models\Clients\GeocodeClient([
     'key'                => '123-asd',
 ]);
 $geocodeResponse = $client->query($queryGeocodeRequest);
-</pre>
+```
 
-* reverse request
-<pre>
+* **reverse request**
+```php
 $reverseGeocodeRequest = new \Graphhopper\Models\GeocodeReverseRequest([
     'point' => '55.630358,37.516776',
     'language' => \Graphhopper\Factory::LANGUAGE_RU
@@ -90,10 +92,10 @@ $client = new \Graphhopper\Models\Clients\GeocodeClient([
     'key'                => '123-123',
 ]);
 $geocodeReverseResponse = $client->reverse($reverseGeocodeRequest);
-</pre>
+```
 
-will be return:
-<pre>
+**will be return:**
+```php
 Graphhopper\Models\GeocodeResponse Object
 (
     [took:Graphhopper\Models\GeocodeResponse:private] => 1470
@@ -125,31 +127,29 @@ Graphhopper\Models\GeocodeResponse Object
 
     [locale:Graphhopper\Models\GeocodeResponse:private] =>
 )
-</pre>
+```
 
 The route request model has the following parameters:
-<pre>
-* points (required|string[]|count>1) - Point coordiante
-* vehicle (required|string)          - Vehicle type. Available car,foot,bike, Default car;
-* language (required|string)         - Request language. Available en,ru,de,fr,it. Default en;
-* is_calc_points (required|string)   - Is Need calculate points. Default false;
-* details (string[])                 - Response Detail. Awailable 'distance', 'time', 'weight', 'line'. Default 'distance';
-* limit (required|integer)           - Count response variants
-</pre>
+- [x] points (required|string[]|count>1) - Point coordiante
+- [x] vehicle (required|string)          - Vehicle type. Available car,foot,bike, Default car;
+- [x] language (required|string)         - Request language. Available en,ru,de,fr,it. Default en;
+- [x] is_calc_points (required|string)   - Is Need calculate points. Default false;
+- [x] details (string[])                 - Response Detail. Awailable 'distance', 'time', 'weight', 'line'. Default 'distance';
+- [x] limit (required|integer)           - Count response variants
+
 
 The geocode query request model has the following parameters:
-<pre>
-* query (required|string)            - Address string;
-* point (string)                     - Point coordiante;
-* language (required|string)         - Request language. Available en,ru,de,fr,it. Default en;
-* provider (required|string)         - Query provider. Avaiable 'default', 'nominatim'. Default 'default'
-* limit (required|integer)           - Count response variants. Default 5;
-</pre>
+
+- [x] query (required|string)            - Address string;
+- [x] point (string)                     - Point coordiante;
+- [x] language (required|string)         - Request language. Available en,ru,de,fr,it. Default en;
+- [x] provider (required|string)         - Query provider. Avaiable 'default', 'nominatim'. Default 'default'
+- [x] limit (required|integer)           - Count response variants. Default 5;
+
 
 The geocode reverse request model has the following parameters:
-<pre>
-* point (required|string)            - Point coordiante;
-* language (required|string)         - Request language. Available en,ru,de,fr,it. Default en;
-* provider (required|string)         - Query provider. Avaiable 'default', 'nominatim'. Default 'default';
-* limit (required|integer)           - Count response variants. Default 1;
-</pre>
+
+- [x] point (required|string)            - Point coordiante;
+- [x] language (required|string)         - Request language. Available en,ru,de,fr,it. Default en;
+- [x] provider (required|string)         - Query provider. Avaiable 'default', 'nominatim'. Default 'default';
+- [x] limit (required|integer)           - Count response variants. Default 1;
