@@ -6,7 +6,7 @@ This project is a wrapper for making api requests to the direction api
 
 The wrapper can be installed with the command
 
-* **composer require "iseed838/graphhopper-api" "^0.1"**
+* **composer require "iseed838/graphhopper-api" "~0.1"**
 
 Currently 2 types of services are tied:
 * Route Api
