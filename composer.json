@@ -1,0 +1,29 @@
+{
+  "name": "iseed838/graphhopper-api",
+  "minimum-stability": "stable",
+  "description": "Project grahphopper-api wrapper",
+  "keywords": [
+    "photon",
+    "api"
+  ],
+  "homepage": "https://github.com/iseed838/graphhopper-api",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andrey Boyarchuk",
+      "email": "iseed838@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "~5.3.1|~6.0",
+    "php": "^7.1",
+    "rakit/validation": "^1.2",
+    "phpunit/phpunit": "~7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Graphopper\\": "src"
+    }
+  }
+}
