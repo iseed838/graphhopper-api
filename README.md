@@ -68,7 +68,7 @@ Graphhopper\Models\RouteResponse Object
 
 2) **Make geocode request:**
 
-* query request
+* <i>query request</i>
 ```php
 $queryGeocodeRequest = new \Graphhopper\Models\GeocodeQueryRequest([
     'query' => 'Moscow Vavilova 6',
@@ -81,7 +81,7 @@ $client = new \Graphhopper\Models\Clients\GeocodeClient([
 $geocodeResponse = $client->query($queryGeocodeRequest);
 ```
 
-* **reverse request**
+* <i>reverse request</i>
 ```php
 $reverseGeocodeRequest = new \Graphhopper\Models\GeocodeReverseRequest([
     'point' => '55.630358,37.516776',
@@ -130,7 +130,7 @@ Graphhopper\Models\GeocodeResponse Object
 ```
 
 The route request model has the following parameters:
-- [x] points (required|string[]|count>1) - Point coordiante
+- [x] points (required|string[]|count>1) - Point coordinate
 - [x] vehicle (required|string)          - Vehicle type. Available car,foot,bike, Default car;
 - [x] language (required|string)         - Request language. Available en,ru,de,fr,it. Default en;
 - [x] is_calc_points (required|string)   - Is Need calculate points. Default false;
