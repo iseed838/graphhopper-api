@@ -3,7 +3,7 @@
   "minimum-stability": "stable",
   "description": "Project graphhopper-api wrapper",
   "keywords": [
-    "photon",
+    "graphhopper",
     "api"
   ],
   "homepage": "https://github.com/iseed838/graphhopper-api",
