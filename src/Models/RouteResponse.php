@@ -18,9 +18,9 @@ class RouteResponse
 {
     use ConfigurableTrait, ValidatorTrait;
 
-    private $info  = null;
-    private $paths = null;
-    private $hints = null;
+    protected $info  = null;
+    protected $paths = null;
+    protected $hints = null;
 
     /**
      * Get first distance

@@ -19,10 +19,10 @@ class GeocodeResponse
 {
     use ConfigurableTrait, ValidatorTrait;
 
-    private $took       = null;
-    private $copyrights = [];
-    private $hits       = [];
-    private $locale     = null;
+    protected $took       = null;
+    protected $copyrights = [];
+    protected $hits       = [];
+    protected $locale     = null;
 
     /**
      * @return int|null

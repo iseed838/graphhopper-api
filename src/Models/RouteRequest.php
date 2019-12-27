@@ -2,7 +2,7 @@
 
 namespace Graphhopper\Models;
 
-use Graphhopper\Factory;
+
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
 
@@ -27,11 +27,21 @@ class RouteRequest
     const CALC_POINT           = 'true';
     const NO_CALC_POINT        = 'false';
 
-    private $points         = [];
-    private $vehicle        = Factory::VEHICLE_CAR;
-    private $language       = Factory::LANGUAGE_EN;
-    private $is_calc_points = self::NO_CALC_POINT;
-    private $details        = [Factory::DETAILS_DISTANCE];
+    const VEHICLE_CAR  = 'car';
+    const VEHICLE_FOOT = 'foot';
+    const VEHICLE_BIKE = 'bike';
+
+    const DETAILS_DISTANCE    = 'distance';
+    const DETAILS_STREET_NAME = 'street_name';
+    const DETAILS_TIME        = 'time';
+    const DETAILS_MAX_SPEED   = 'max_speed';
+    const DETAILS_LANES       = 'lanes';
+
+    protected $points         = [];
+    protected $vehicle        = self::VEHICLE_CAR;
+    protected $language       = Dictionary::LANGUAGE_EN;
+    protected $is_calc_points = self::NO_CALC_POINT;
+    protected $details        = [self::DETAILS_DISTANCE];
 
     /**
      * @throws \Graphhopper\Exceptions\ValidException
@@ -64,11 +74,39 @@ class RouteRequest
                     return true;
                 }
             ],
-            'vehicle'        => 'required|in:' . implode(",", Factory::getVehicleDictionary()),
-            'language'       => 'required|in:' . implode(",", Factory::getLanguageDictionary()),
+            'vehicle'        => 'required|in:' . implode(",", self::getVehicleDictionary()),
+            'language'       => 'required|in:' . implode(",", Dictionary::getLanguageDictionary()),
             'is_calc_points' => 'required|in:' . implode(",", [self::CALC_POINT, self::NO_CALC_POINT]),
-            'details'        => 'array|in_array:' . implode(",", Factory::getDetailsDictionary()),
+            'details'        => 'array|in_array:' . implode(",", self::getDetailsDictionary()),
         ]);
+    }
+
+    /**
+     * Get vehicle dictionary
+     * @return array
+     */
+    public static function getVehicleDictionary()
+    {
+        return [
+            self::VEHICLE_CAR,
+            self::VEHICLE_FOOT,
+            self::VEHICLE_BIKE,
+        ];
+    }
+
+    /**
+     * Get details dictionary
+     * @return array
+     */
+    public static function getDetailsDictionary()
+    {
+        return [
+            self::DETAILS_DISTANCE,
+            self::DETAILS_STREET_NAME,
+            self::DETAILS_TIME,
+            self::DETAILS_MAX_SPEED,
+            self::DETAILS_LANES,
+        ];
     }
 
     /**

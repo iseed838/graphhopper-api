@@ -9,8 +9,8 @@
 namespace functional;
 
 
-use Graphhopper\Factory;
 use Graphhopper\Models\Clients\RouteClient;
+use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\RouteRequest;
 use Graphhopper\Models\RouteResponse;
 use GuzzleHttp\Client;
@@ -30,15 +30,15 @@ class RouteClientTest extends \PHPUnit\Framework\TestCase
                 '55.630358,37.516776',
                 '55.6916244,37.7225474'
             ],
-            'language'       => Factory::LANGUAGE_RU,
-            'vehicle'        => Factory::VEHICLE_CAR,
+            'language'       => Dictionary::LANGUAGE_RU,
+            'vehicle'        => RouteRequest::VEHICLE_CAR,
             'is_calc_points' => 'true',
-            'details'        => [Factory::DETAILS_DISTANCE]
+            'details'        => [RouteRequest::DETAILS_DISTANCE]
         ]);
         $this->assertNotEmpty($request);
-        $routeClient = new RouteClient([
-            'url'                 => Factory::DEFAULT_URL,
-            'version'             => Factory::DEFAULT_VERSION,
+        $routeClient = new RouteClient(new Client(), [
+            'url'                 => Dictionary::DEFAULT_URL,
+            'version'             => Dictionary::DEFAULT_VERSION,
             'basic_auth_username' => 'user',
             'basic_auth_password' => 'password',
         ]);

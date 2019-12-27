@@ -2,7 +2,7 @@
 
 namespace Graphhopper\Models;
 
-use Graphhopper\Factory;
+
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
 
@@ -21,12 +21,13 @@ class GeocodeReverseRequest
 {
     use ConfigurableTrait, ValidatorTrait;
 
+    const QUERY_REVERSE_TRUE  = 'true';
     const DEFAULT_QUERY_LIMIT = 1;
 
-    private $point    = null;
-    private $provider = Factory::PROVIDER_DEFAULT;
-    private $language = Factory::LANGUAGE_EN;
-    private $limit    = self::DEFAULT_QUERY_LIMIT;
+    protected $point    = null;
+    protected $provider = Dictionary::PROVIDER_DEFAULT;
+    protected $language = Dictionary::LANGUAGE_EN;
+    protected $limit    = self::DEFAULT_QUERY_LIMIT;
 
     /**
      * Check reverse rules
@@ -37,8 +38,8 @@ class GeocodeReverseRequest
     {
         $this->validateOrExcept([
             'point'    => 'required|string',
-            'provider' => 'required|in:' . implode(",", Factory::getProviderDictionary()),
-            'language' => 'required|in:' . implode(",", Factory::getLanguageDictionary()),
+            'provider' => 'required|in:' . implode(",", Dictionary::getProviderDictionary()),
+            'language' => 'required|in:' . implode(",", Dictionary::getLanguageDictionary()),
             'limit'    => 'required|integer',
         ]);
     }
@@ -128,7 +129,7 @@ class GeocodeReverseRequest
     {
         $items = [
             'point'    => $this->getPoint(),
-            'reverse'  => Factory::QUERY_REVERSE_TRUE,
+            'reverse'  => self::QUERY_REVERSE_TRUE,
             'provider' => $this->getProvider(),
             'limit'    => $this->getLimit(),
             'locale'   => $this->getLanguage()

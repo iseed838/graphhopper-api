@@ -6,7 +6,7 @@ This project is a wrapper for making api requests to the direction api
 
 The wrapper can be installed with the command
 
-* **composer require "iseed838/graphhopper-api" "~0.1"**
+* **composer require "iseed838/graphhopper-api" "~0.2"**
 
 Currently 2 types of services are tied:
 * Route Api
@@ -22,7 +22,7 @@ $pathRequest = new \Graphhopper\Models\RouteRequest([
     ],
 ]);
 
-$client = new \Graphhopper\Models\Clients\RouteClient([
+$client = new \Graphhopper\Models\Clients\RouteClient(new \GuzzleHttp\Client(), [
     'key'                => '123-asd',
 ]);
 $pathResponse = $client->paths($pathRequest);
@@ -75,7 +75,7 @@ $queryGeocodeRequest = new \Graphhopper\Models\GeocodeQueryRequest([
     'language' => \Graphhopper\Factory::LANGUAGE_EN
 ]);
 
-$client = new \Graphhopper\Models\Clients\GeocodeClient([
+$client = new \Graphhopper\Models\Clients\GeocodeClient(new \GuzzleHttp\Client(), [
     'key'                => '123-asd',
 ]);
 $geocodeResponse = $client->query($queryGeocodeRequest);
@@ -88,7 +88,7 @@ $reverseGeocodeRequest = new \Graphhopper\Models\GeocodeReverseRequest([
     'language' => \Graphhopper\Factory::LANGUAGE_RU
 ]);
 
-$client = new \Graphhopper\Models\Clients\GeocodeClient([
+$client = new \Graphhopper\Models\Clients\GeocodeClient(new \GuzzleHttp\Client(), [
     'key'                => '123-123',
 ]);
 $geocodeReverseResponse = $client->reverse($reverseGeocodeRequest);

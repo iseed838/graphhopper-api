@@ -2,7 +2,7 @@
 
 namespace Graphhopper\Models;
 
-use Graphhopper\Factory;
+
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
 
@@ -23,11 +23,11 @@ class GeocodeQueryRequest
 
     const DEFAULT_QUERY_LIMIT = 5;
 
-    private $query    = null;
-    private $point    = null;
-    private $provider = Factory::PROVIDER_DEFAULT;
-    private $language = Factory::LANGUAGE_EN;
-    private $limit    = self::DEFAULT_QUERY_LIMIT;
+    protected $query    = null;
+    protected $point    = null;
+    protected $provider = Dictionary::PROVIDER_DEFAULT;
+    protected $language = Dictionary::LANGUAGE_EN;
+    protected $limit    = self::DEFAULT_QUERY_LIMIT;
 
     /**
      * Check query rules
@@ -39,8 +39,8 @@ class GeocodeQueryRequest
         $this->validateOrExcept([
             'query'    => 'required|string',
             'point'    => 'string',
-            'provider' => 'required|in:' . implode(",", Factory::getProviderDictionary()),
-            'language' => 'required|in:' . implode(",", Factory::getLanguageDictionary()),
+            'provider' => 'required|in:' . implode(",", Dictionary::getProviderDictionary()),
+            'language' => 'required|in:' . implode(",", Dictionary::getLanguageDictionary()),
             'limit'    => 'required|integer',
         ]);
     }
@@ -157,7 +157,6 @@ class GeocodeQueryRequest
         }
         if (!empty($this->getPoint())) {
             $items['point']   = $this->getPoint();
-            $items['reverse'] = Factory::QUERY_REVERSE_TRUE;
         }
 
         return http_build_query($items);

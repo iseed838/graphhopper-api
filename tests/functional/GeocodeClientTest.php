@@ -9,8 +9,8 @@
 namespace functional;
 
 
-use Graphhopper\Factory;
 use Graphhopper\Models\Clients\GeocodeClient;
+use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\GeocodeQueryRequest;
 use Graphhopper\Models\GeocodeResponse;
 use Graphhopper\Models\GeocodeReverseRequest;
@@ -31,9 +31,9 @@ class GeocodeClientTest extends \PHPUnit\Framework\TestCase
             'query' => 'Moscow, Valilova 6'
         ]);
         $this->assertNotEmpty($request);
-        $geocodeClient = new GeocodeClient([
-            'url'                 => Factory::DEFAULT_URL,
-            'version'             => Factory::DEFAULT_VERSION,
+        $geocodeClient = new GeocodeClient(new Client(), [
+            'url'                 => Dictionary::DEFAULT_URL,
+            'version'             => Dictionary::DEFAULT_VERSION,
             'basic_auth_username' => 'user',
             'basic_auth_password' => 'password',
         ]);

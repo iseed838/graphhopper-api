@@ -9,8 +9,9 @@
 namespace unit;
 
 
-use Graphhopper\Factory;
 use Graphhopper\Models\Clients\RouteClient;
+use Graphhopper\Models\Dictionary;
+use GuzzleHttp\Client;
 
 class RouteClientTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,17 +21,17 @@ class RouteClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreate()
     {
-        $model = new RouteClient([
-            'url'                 => Factory::DEFAULT_URL,
-            'version'             => Factory::DEFAULT_VERSION,
+        $model = new RouteClient(new Client(), [
+            'url'                 => Dictionary::DEFAULT_URL,
+            'version'             => Dictionary::DEFAULT_VERSION,
             'key'                 => 'asd-123',
             'basic_auth_username' => 'user',
             'basic_auth_password' => 'password',
         ]);
         $model->check();
         $this->assertNotEmpty($model);
-        $this->assertSame($model->getUrl(), Factory::DEFAULT_URL);
-        $this->assertSame($model->getVersion(), Factory::DEFAULT_VERSION);
+        $this->assertSame($model->getUrl(), Dictionary::DEFAULT_URL);
+        $this->assertSame($model->getVersion(), Dictionary::DEFAULT_VERSION);
         $this->assertSame($model->getKey(), 'asd-123');
         $this->assertSame($model->getBasicAuthUsername(), 'user');
         $this->assertSame($model->getBasicAuthPassword(), 'password');

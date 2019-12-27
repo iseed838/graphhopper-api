@@ -18,8 +18,8 @@ class RouteInfoResponse
 {
     use ConfigurableTrait, ValidatorTrait;
 
-    private $copyrights = null;
-    private $took       = null;
+    protected $copyrights = null;
+    protected $took       = null;
 
     /**
      * @return array|null

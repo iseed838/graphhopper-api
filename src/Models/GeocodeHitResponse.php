@@ -33,21 +33,21 @@ class GeocodeHitResponse
     const OSM_TYPE_RELATION = 'R';
     const OSM_TYPE_WAY      = 'W';
 
-    private $point         = [];
-    private $osm_id        = null;
-    private $osm_type      = null;
-    private $osm_value     = null;
-    private $osm_key       = null;
-    private $name          = null;
-    private $country       = null;
-    private $city          = null;
-    private $state         = null;
-    private $stateDistrict = null;
-    private $street        = null;
-    private $housenumber   = null;
-    private $house_number  = null;
-    private $postcode      = null;
-    private $extent        = [];
+    protected $point         = [];
+    protected $osm_id        = null;
+    protected $osm_type      = null;
+    protected $osm_value     = null;
+    protected $osm_key       = null;
+    protected $name          = null;
+    protected $country       = null;
+    protected $city          = null;
+    protected $state         = null;
+    protected $stateDistrict = null;
+    protected $street        = null;
+    protected $housenumber   = null;
+    protected $house_number  = null;
+    protected $postcode      = null;
+    protected $extent        = [];
 
     /**
      * @return array

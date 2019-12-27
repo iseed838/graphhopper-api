@@ -19,11 +19,11 @@ class RoutePathResponse
 {
     use ConfigurableTrait, ValidatorTrait;
 
-    private $distance          = null;
-    private $weight            = null;
-    private $time              = null;
-    private $transfers         = null;
-    private $snapped_waypoints = null;
+    protected $distance          = null;
+    protected $weight            = null;
+    protected $time              = null;
+    protected $transfers         = null;
+    protected $snapped_waypoints = null;
 
     /**
      * @return float|int|null

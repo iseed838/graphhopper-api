@@ -3,7 +3,7 @@
 namespace Graphhopper\Models\Clients;
 
 
-use Graphhopper\Factory;
+use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\RouteRequest;
 use Graphhopper\Models\RouteResponse;
 use Graphhopper\Traits\ConfigurableTrait;
@@ -25,23 +25,21 @@ class RouteClient
 {
     use ConfigurableTrait, ValidatorTrait;
 
-    private $key                 = null;
-    private $version             = Factory::DEFAULT_VERSION;
-    private $url                 = Factory::DEFAULT_URL;
-    private $basic_auth_username = null;
-    private $basic_auth_password = null;
-    private $client              = null;
+    public $key                 = null;
+    public $version             = Dictionary::DEFAULT_VERSION;
+    public $url                 = Dictionary::DEFAULT_URL;
+    public $basic_auth_username = null;
+    public $basic_auth_password = null;
+    public $client              = null;
 
     /**
      * RouteClient constructor.
-     * @param Client|null $client
+     * @param Client $client
      * @param array $properties
      */
-    public function __construct(array $properties = [], Client $client = null)
+    public function __construct(Client $client, array $properties = [])
     {
-        if (is_null($this->getClient())) {
-            $this->setClient(new Client());
-        }
+        $this->client = $client;
         if (!empty($properties)) {
             $this->configure($properties);
         }
