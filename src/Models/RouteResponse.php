@@ -4,7 +4,6 @@ namespace Graphhopper\Models;
 
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
-use Graphhopper\Di;
 
 
 /**
@@ -51,23 +50,21 @@ class RouteResponse
 
     /**
      * @return RouteInfoResponse
-     * @throws \ReflectionException
      */
     public function getInfo(): RouteInfoResponse
     {
-        return Di::get(RouteInfoResponse::class, $this->info);
+        return new RouteInfoResponse($this->info);
     }
 
     /**
      * @return RoutePathResponse[]|array
-     * @throws \ReflectionException
      */
     public function getPaths(): array
     {
         $items = [];
         if (!empty($this->paths)) {
             foreach ($this->paths as $path) {
-                $items[] = Di::get(RoutePathResponse::class, $path);
+                $items[] = new RoutePathResponse($path);
             }
         }
 

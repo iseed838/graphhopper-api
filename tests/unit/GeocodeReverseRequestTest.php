@@ -9,7 +9,6 @@
 namespace unit;
 
 
-use Graphhopper\Di;
 use Graphhopper\Factory;
 use Graphhopper\Models\GeocodeReverseRequest;
 
@@ -18,12 +17,11 @@ class GeocodeReverseRequestTest extends \PHPUnit\Framework\TestCase
     /**
      * @throws \Graphhopper\Exceptions\ValidException
      * @throws \Rakit\Validation\RuleQuashException
-     * @throws \ReflectionException
      */
     public function testCreate()
     {
         /** @var GeocodeReverseRequest $model */
-        $model = Di::get(GeocodeReverseRequest::class, [
+        $model = new GeocodeReverseRequest([
             'point'    => '55.6916244,37.7225474',
             'language' => Factory::LANGUAGE_EN,
             'limit'    => 1

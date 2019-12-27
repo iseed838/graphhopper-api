@@ -9,17 +9,13 @@
 namespace unit;
 
 
-use Graphhopper\Di;
 use Graphhopper\Models\RouteResponse;
 
 class RouteResponseTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @throws \ReflectionException
-     */
     public function testCreate()
     {
-        $model = Di::get(RouteResponse::class, [
+        $model = new RouteResponse([
             'info'  => [
                 'copyrights' => [
                     'GraphHopper',

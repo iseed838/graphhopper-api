@@ -3,7 +3,6 @@
 namespace Graphhopper\Models\Clients;
 
 
-use Graphhopper\Di;
 use Graphhopper\Factory;
 use Graphhopper\Models\RouteRequest;
 use Graphhopper\Models\RouteResponse;
@@ -34,6 +33,21 @@ class RouteClient
     private $client              = null;
 
     /**
+     * RouteClient constructor.
+     * @param Client|null $client
+     * @param array $properties
+     */
+    public function __construct(array $properties = [], Client $client = null)
+    {
+        if (is_null($this->getClient())) {
+            $this->setClient(new Client());
+        }
+        if (!empty($properties)) {
+            $this->configure($properties);
+        }
+    }
+
+    /**
      * @throws \Graphhopper\Exceptions\ValidException
      * @throws \Rakit\Validation\RuleQuashException
      */
@@ -46,16 +60,6 @@ class RouteClient
             'basic_auth_username' => 'string',
             'basic_auth_password' => 'string',
         ]);
-    }
-
-    /**
-     * @throws \ReflectionException
-     */
-    public function init()
-    {
-        if (is_null($this->getClient())) {
-            $this->setClient(Di::get(Client::class));
-        }
     }
 
     /**
@@ -80,7 +84,7 @@ class RouteClient
         }
         $response = $this->getClient()->request('GET', $url, $options);
         $result   = json_decode($response->getBody()->getContents(), true);
-        $model    = Di::get(RouteResponse::class, $result);
+        $model    = new RouteResponse ($result);
 
         return $model;
     }

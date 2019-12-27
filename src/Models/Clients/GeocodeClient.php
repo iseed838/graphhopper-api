@@ -9,7 +9,6 @@
 namespace Graphhopper\Models\Clients;
 
 
-use Graphhopper\Di;
 use Graphhopper\Factory;
 use Graphhopper\Models\GeocodeQueryRequest;
 use Graphhopper\Models\GeocodeReverseRequest;
@@ -41,12 +40,17 @@ class GeocodeClient
     private $client              = null;
 
     /**
-     * @throws \ReflectionException
+     * GeocodeClient constructor.
+     * @param Client|null $client
+     * @param array $properties
      */
-    public function init()
+    public function __construct(array $properties = [], Client $client = null)
     {
         if (is_null($this->getClient())) {
-            $this->setClient(Di::get(Client::class));
+            $this->setClient(new Client());
+        }
+        if (!empty($properties)) {
+            $this->configure($properties);
         }
     }
 
@@ -115,7 +119,7 @@ class GeocodeClient
         }
         $response = $this->getClient()->request('GET', $url, $options);
         $result   = json_decode($response->getBody()->getContents(), true);
-        $model    = Di::get(GeocodeResponse::class, $result);
+        $model    = new GeocodeResponse($result);
 
         return $model;
     }

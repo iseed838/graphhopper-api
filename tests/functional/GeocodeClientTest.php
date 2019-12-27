@@ -8,7 +8,7 @@
 
 namespace functional;
 
-use Graphhopper\Di;
+
 use Graphhopper\Factory;
 use Graphhopper\Models\Clients\GeocodeClient;
 use Graphhopper\Models\GeocodeQueryRequest;
@@ -20,15 +20,18 @@ use GuzzleHttp\Psr7\Response;
 class GeocodeClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @return GeocodeClient
+     * @throws \Graphhopper\Exceptions\ValidException
+     * @throws \Rakit\Validation\RuleQuashException
      * @throws \ReflectionException
      */
     public function testQueryRequest()
     {
-        $request = Di::get(GeocodeQueryRequest::class, [
+        $request = new GeocodeQueryRequest([
             'query' => 'Moscow, Valilova 6'
         ]);
         $this->assertNotEmpty($request);
-        $geocodeClient = Di::get(GeocodeClient::class, [
+        $geocodeClient = new GeocodeClient([
             'url'                 => Factory::DEFAULT_URL,
             'version'             => Factory::DEFAULT_VERSION,
             'basic_auth_username' => 'user',
@@ -56,8 +59,7 @@ class GeocodeClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testReverseRequest(GeocodeClient $geocodeClient)
     {
-        /** @var GeocodeReverseRequest $request */
-        $request = Di::get(GeocodeReverseRequest::class, [
+        $request = new GeocodeReverseRequest([
             'point' => '55.630358,37.516776'
         ]);
         $this->assertNotEmpty($request);

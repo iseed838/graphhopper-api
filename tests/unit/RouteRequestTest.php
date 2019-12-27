@@ -9,18 +9,18 @@
 namespace unit;
 
 
-use Graphhopper\Di;
 use Graphhopper\Factory;
 use Graphhopper\Models\RouteRequest;
 
 class RouteRequestTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @throws \ReflectionException
+     * @throws \Graphhopper\Exceptions\ValidException
+     * @throws \Rakit\Validation\RuleQuashException
      */
     public function testCreate()
     {
-        $model = Di::get(RouteRequest::class, [
+        $model = new RouteRequest([
             'points'         => [
                 '55.630358,37.516776',
                 '55.6916244,37.7225474'

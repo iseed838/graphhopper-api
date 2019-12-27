@@ -5,8 +5,6 @@ namespace Graphhopper\Models;
 
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
-use Graphhopper\Di;
-
 
 /**
  * Geocode response
@@ -45,14 +43,13 @@ class GeocodeResponse
     /**
      * array|GeocodeHitResponse[]
      * @return array
-     * @throws \ReflectionException
      */
     public function getHits(): array
     {
         $hits = [];
         if (!empty($this->hits) && is_array($this->hits)) {
             foreach ($this->hits as $hit) {
-                $hits[] = Di::get(GeocodeHitResponse::class, $hit);
+                $hits[] = new GeocodeHitResponse($hit);
             }
         }
 

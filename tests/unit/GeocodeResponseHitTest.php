@@ -8,17 +8,14 @@
 
 namespace unit;
 
-use Graphhopper\Di;
+
 use Graphhopper\Models\GeocodeHitResponse;
 
 class GeocodeResponseHitTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @throws \ReflectionException
-     */
     public function testCreate()
     {
-        $model = Di::get(GeocodeHitResponse::class, [
+        $model = new GeocodeHitResponse([
             'point'         => [
                 'lng' => 37.516796697274,
                 'lat' => 55.63039825

@@ -9,7 +9,6 @@
 namespace unit;
 
 
-use Graphhopper\Di;
 use Graphhopper\Models\RoutePathResponse;
 
 class RouteResponsePathTest extends \PHPUnit\Framework\TestCase
@@ -19,7 +18,7 @@ class RouteResponsePathTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreate()
     {
-        $model = Di::get(RoutePathResponse::class, [
+        $model = new RoutePathResponse([
             'distance'          => 20048.589,
             'weight'            => 1276.548563,
             'time'              => 1276419,

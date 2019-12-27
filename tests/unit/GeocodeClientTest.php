@@ -8,18 +8,18 @@
 
 namespace unit;
 
-use Graphhopper\Di;
 use Graphhopper\Factory;
 use Graphhopper\Models\Clients\GeocodeClient;
 
 class GeocodeClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @throws \ReflectionException
+     * @throws \Graphhopper\Exceptions\ValidException
+     * @throws \Rakit\Validation\RuleQuashException
      */
     public function testCreate()
     {
-        $model = Di::get(GeocodeClient::class, [
+        $model = new GeocodeClient([
             'url'                 => Factory::DEFAULT_URL,
             'version'             => Factory::DEFAULT_VERSION,
             'key'                 => 'asd-123',

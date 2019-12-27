@@ -8,7 +8,7 @@
 
 namespace functional;
 
-use Graphhopper\Di;
+
 use Graphhopper\Factory;
 use Graphhopper\Models\Clients\RouteClient;
 use Graphhopper\Models\RouteRequest;
@@ -19,11 +19,13 @@ use GuzzleHttp\Psr7\Response;
 class RouteClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @throws \Graphhopper\Exceptions\ValidException
+     * @throws \Rakit\Validation\RuleQuashException
      * @throws \ReflectionException
      */
     public function testPathsRequest()
     {
-        $request = Di::get(RouteRequest::class, [
+        $request = new RouteRequest([
             'points'         => [
                 '55.630358,37.516776',
                 '55.6916244,37.7225474'
@@ -34,7 +36,7 @@ class RouteClientTest extends \PHPUnit\Framework\TestCase
             'details'        => [Factory::DETAILS_DISTANCE]
         ]);
         $this->assertNotEmpty($request);
-        $routeClient = Di::get(RouteClient::class, [
+        $routeClient = new RouteClient([
             'url'                 => Factory::DEFAULT_URL,
             'version'             => Factory::DEFAULT_VERSION,
             'basic_auth_username' => 'user',

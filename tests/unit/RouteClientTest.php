@@ -8,18 +8,19 @@
 
 namespace unit;
 
-use Graphhopper\Di;
+
 use Graphhopper\Factory;
 use Graphhopper\Models\Clients\RouteClient;
 
 class RouteClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @throws \ReflectionException
+     * @throws \Graphhopper\Exceptions\ValidException
+     * @throws \Rakit\Validation\RuleQuashException
      */
     public function testCreate()
     {
-        $model = Di::get(RouteClient::class, [
+        $model = new RouteClient([
             'url'                 => Factory::DEFAULT_URL,
             'version'             => Factory::DEFAULT_VERSION,
             'key'                 => 'asd-123',

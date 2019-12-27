@@ -9,17 +9,13 @@
 namespace unit;
 
 
-use Graphhopper\Di;
 use Graphhopper\Models\GeocodeResponse;
 
 class GeocodeResponseTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @throws \ReflectionException
-     */
     public function testCreate()
     {
-        $model = Di::get(GeocodeResponse::class, [
+        $model = new GeocodeResponse([
             'took'       => 9,
             'copyrights' => [],
             'hits'       => [
