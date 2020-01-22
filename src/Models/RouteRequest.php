@@ -3,8 +3,10 @@
 namespace Graphhopper\Models;
 
 
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
+use Rakit\Validation\RuleQuashException;
 
 
 /**
@@ -16,6 +18,8 @@ use Graphhopper\Traits\ValidatorTrait;
  * @property string $language
  * @property string $is_calc_points
  * @property array $details
+ * @property string $is_instructions
+ * @property string $is_points_encoded
  */
 class RouteRequest
 {
@@ -24,8 +28,8 @@ class RouteRequest
     const MIN_POINTS           = 2;
     const MIN_COORDINATE_VALUE = -180;
     const MAX_COORDINATE_VALUE = 180;
-    const CALC_POINT           = 'true';
-    const NO_CALC_POINT        = 'false';
+    const YES                  = 'true';
+    const NO                   = 'false';
 
     const VEHICLE_CAR  = 'car';
     const VEHICLE_FOOT = 'foot';
@@ -37,20 +41,22 @@ class RouteRequest
     const DETAILS_MAX_SPEED   = 'max_speed';
     const DETAILS_LANES       = 'lanes';
 
-    protected $points         = [];
-    protected $vehicle        = self::VEHICLE_CAR;
-    protected $language       = Dictionary::LANGUAGE_EN;
-    protected $is_calc_points = self::NO_CALC_POINT;
-    protected $details        = [self::DETAILS_DISTANCE];
+    protected $points            = [];
+    protected $vehicle           = self::VEHICLE_CAR;
+    protected $language          = Dictionary::LANGUAGE_EN;
+    protected $is_calc_points    = self::NO;
+    protected $is_instructions   = self::NO;
+    protected $is_points_encoded = self::NO;
+    protected $details           = [self::DETAILS_DISTANCE, self::DETAILS_TIME];
 
     /**
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function check()
     {
         $this->validateOrExcept([
-            'points'         => [
+            'points'            => [
                 'required',
                 'array',
                 function ($value) {
@@ -58,7 +64,7 @@ class RouteRequest
                         return false;
                     }
                     foreach ($value as $coordinate) {
-                        list($latitude, $longitude) = explode(",", $coordinate);
+                        [$latitude, $longitude] = explode(",", $coordinate);
                         if (empty($latitude) ||
                             $latitude < self::MIN_COORDINATE_VALUE ||
                             $latitude > self::MAX_COORDINATE_VALUE) {
@@ -74,10 +80,12 @@ class RouteRequest
                     return true;
                 }
             ],
-            'vehicle'        => 'required|in:' . implode(",", self::getVehicleDictionary()),
-            'language'       => 'required|in:' . implode(",", Dictionary::getLanguageDictionary()),
-            'is_calc_points' => 'required|in:' . implode(",", [self::CALC_POINT, self::NO_CALC_POINT]),
-            'details'        => 'array|in_array:' . implode(",", self::getDetailsDictionary()),
+            'vehicle'           => 'required|in:' . implode(",", self::getVehicleDictionary()),
+            'language'          => 'required|in:' . implode(",", Dictionary::getLanguageDictionary()),
+            'is_calc_points'    => 'in:' . implode(",", [self::YES, self::NO]),
+            'is_instructions'   => 'in:' . implode(",", [self::YES, self::NO]),
+            'is_points_encoded' => 'in:' . implode(",", [self::YES, self::NO]),
+            'details'           => 'array|in_array:' . implode(",", self::getDetailsDictionary()),
         ]);
     }
 
@@ -205,6 +213,45 @@ class RouteRequest
     }
 
     /**
+     * @return string
+     */
+    public function getIsInstructions(): string
+    {
+        return $this->is_instructions;
+    }
+
+    /**
+     * @param string $is_instructions
+     * @return RouteRequest $this;
+     */
+    public function setIsInstructions(string $is_instructions): self
+    {
+        $this->is_instructions = $is_instructions;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIsPointsEncoded(): string
+    {
+        return $this->is_points_encoded;
+    }
+
+    /**
+     * @param string $is_points_encoded
+     * @return RouteRequest $this;
+     */
+    public function setIsPointsEncoded(string $is_points_encoded): self
+    {
+        $this->is_points_encoded = $is_points_encoded;
+
+        return $this;
+    }
+
+
+    /**
      * Get query string
      * @return string
      */
@@ -216,10 +263,12 @@ class RouteRequest
         }
         $query = implode("&", $points);
         $items = [
-            'vehicle'     => $this->getVehicle(),
-            'locale'      => $this->getLanguage(),
-            'calc_points' => $this->getIsCalcPoints(),
-            'details'     => implode(",", $this->getDetails())
+            'vehicle'        => $this->vehicle,
+            'locale'         => $this->language,
+            'calc_points'    => $this->is_calc_points,
+            'instructions'   => $this->is_instructions,
+            'points_encoded' => $this->is_points_encoded,
+            'details'        => implode(",", $this->getDetails())
         ];
 
         return $query . '&' . http_build_query($items);

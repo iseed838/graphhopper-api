@@ -14,6 +14,9 @@ use Graphhopper\Traits\ValidatorTrait;
  * @property null|integer $time
  * @property null|integer $transfers
  * @property null|string $snapped_waypoints
+ * @property null|array $details
+ * @property null|array $legs
+ * @property null|array $points
  */
 class RoutePathResponse
 {
@@ -24,6 +27,9 @@ class RoutePathResponse
     protected $time              = null;
     protected $transfers         = null;
     protected $snapped_waypoints = null;
+    protected $details           = null;
+    protected $legs              = null;
+    protected $points            = null;
 
     /**
      * @return float|int|null
@@ -64,4 +70,29 @@ class RoutePathResponse
     {
         return $this->snapped_waypoints;
     }
+
+    /**
+     * @return array|null
+     */
+    public function getDetails(): ?array
+    {
+        return $this->details;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getLegs(): ?array
+    {
+        return $this->legs;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getPoints(): ?array
+    {
+        return $this->points;
+    }
+
 }
