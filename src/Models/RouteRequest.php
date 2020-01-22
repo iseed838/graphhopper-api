@@ -261,15 +261,19 @@ class RouteRequest
         foreach ($this->getPoints() as $point) {
             $points[] = "point={$point}";
         }
-        $query = implode("&", $points);
-        $items = [
+        $query   = implode("&", $points);
+        $items   = [
             'vehicle'        => $this->vehicle,
             'locale'         => $this->language,
             'calc_points'    => $this->is_calc_points,
             'instructions'   => $this->is_instructions,
             'points_encoded' => $this->is_points_encoded,
-            'details'        => implode(",", $this->getDetails())
         ];
+        $details = [];
+        foreach ($this->getDetails() as $detail) {
+            $details[] = "details={$detail}";
+        }
+        $query .= "&" . implode("&", $details);
 
         return $query . '&' . http_build_query($items);
     }
