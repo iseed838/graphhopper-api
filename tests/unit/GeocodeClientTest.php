@@ -9,15 +9,18 @@
 namespace unit;
 
 
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Clients\GeocodeClient;
 use Graphhopper\Models\Dictionary;
 use GuzzleHttp\Client;
+use PHPUnit\Framework\TestCase;
+use Rakit\Validation\RuleQuashException;
 
-class GeocodeClientTest extends \PHPUnit\Framework\TestCase
+class GeocodeClientTest extends TestCase
 {
     /**
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function testCreate()
     {

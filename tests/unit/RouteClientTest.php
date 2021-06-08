@@ -9,15 +9,18 @@
 namespace unit;
 
 
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Clients\RouteClient;
 use Graphhopper\Models\Dictionary;
 use GuzzleHttp\Client;
+use PHPUnit\Framework\TestCase;
+use Rakit\Validation\RuleQuashException;
 
-class RouteClientTest extends \PHPUnit\Framework\TestCase
+class RouteClientTest extends TestCase
 {
     /**
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function testCreate()
     {

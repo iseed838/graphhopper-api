@@ -9,9 +9,12 @@
 namespace unit;
 
 
+use Graphhopper\Models\RouteInfoResponse;
+use Graphhopper\Models\RoutePathResponse;
 use Graphhopper\Models\RouteResponse;
+use PHPUnit\Framework\TestCase;
 
-class RouteResponseTest extends \PHPUnit\Framework\TestCase
+class RouteResponseTest extends TestCase
 {
     public function testCreate()
     {
@@ -38,8 +41,8 @@ class RouteResponseTest extends \PHPUnit\Framework\TestCase
             ]
         ]);
         $this->assertNotEmpty($model);
-        $this->assertInstanceOf(\Graphhopper\Models\RouteInfoResponse::class, $model->getInfo());
-        $this->assertInstanceOf(\Graphhopper\Models\RoutePathResponse::class, $model->getPaths()[0]);
+        $this->assertInstanceOf(RouteInfoResponse::class, $model->getInfo());
+        $this->assertInstanceOf(RoutePathResponse::class, $model->getPaths()[0]);
         $this->assertSame(20048.589, $model->getFirstDistance());
         $this->assertSame(1276419, $model->getFirstTime());
         $this->assertIsArray($model->getHints());

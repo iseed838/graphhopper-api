@@ -3,8 +3,10 @@
 namespace Graphhopper\Models;
 
 
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
+use Rakit\Validation\RuleQuashException;
 
 
 /**
@@ -31,8 +33,8 @@ class GeocodeReverseRequest
 
     /**
      * Check reverse rules
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function check()
     {

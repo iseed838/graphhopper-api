@@ -9,9 +9,11 @@
 namespace unit;
 
 
+use Graphhopper\Models\GeocodeHitResponse;
 use Graphhopper\Models\GeocodeResponse;
+use PHPUnit\Framework\TestCase;
 
-class GeocodeResponseTest extends \PHPUnit\Framework\TestCase
+class GeocodeResponseTest extends TestCase
 {
     public function testCreate()
     {
@@ -47,7 +49,7 @@ class GeocodeResponseTest extends \PHPUnit\Framework\TestCase
             ]
         ]);
         $this->assertNotEmpty($model);
-        $this->assertInstanceOf(\Graphhopper\Models\GeocodeHitResponse::class, $model->getHits()[0]);
+        $this->assertInstanceOf(GeocodeHitResponse::class, $model->getHits()[0]);
         $this->assertSame($model->getTook(), 9);
         $this->assertSame($model->getCopyrights(), []);
 

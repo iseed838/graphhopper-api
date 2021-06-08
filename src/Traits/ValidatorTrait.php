@@ -12,6 +12,8 @@ use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Validators\ArrayIntersectValidator;
 use Graphhopper\Validators\NotEmptyValidator;
 use Graphhopper\Validators\StringValidator;
+use Rakit\Validation\RuleQuashException;
+use Rakit\Validation\Validation;
 use Rakit\Validation\Validator;
 
 /**
@@ -27,8 +29,8 @@ trait ValidatorTrait
      * @param array $rules
      * @param array $messages
      * @param Validator|null $validator
-     * @return \Rakit\Validation\Validation
-     * @throws \Rakit\Validation\RuleQuashException
+     * @return Validation
+     * @throws RuleQuashException
      */
     public function validate(array $rules, array $messages = [], Validator $validator = null)
     {
@@ -48,7 +50,7 @@ trait ValidatorTrait
      * @param array $messages
      * @param Validator|null $validator
      * @throws ValidException
-     * @throws \Rakit\Validation\RuleQuashException
+     * @throws RuleQuashException
      */
     public function validateOrExcept(array $rules, array $messages = [], Validator $validator = null)
     {

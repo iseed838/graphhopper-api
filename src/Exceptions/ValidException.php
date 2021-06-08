@@ -9,7 +9,9 @@
 namespace Graphhopper\Exceptions;
 
 
-class ValidException extends \Exception
+use Exception;
+
+class ValidException extends Exception
 {
 
 }

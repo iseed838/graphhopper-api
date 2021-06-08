@@ -10,8 +10,9 @@ namespace unit;
 
 
 use Graphhopper\Models\GeocodeHitResponse;
+use PHPUnit\Framework\TestCase;
 
-class GeocodeResponseHitTest extends \PHPUnit\Framework\TestCase
+class GeocodeResponseHitTest extends TestCase
 {
     public function testCreate()
     {

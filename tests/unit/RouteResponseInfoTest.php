@@ -10,8 +10,9 @@ namespace unit;
 
 
 use Graphhopper\Models\RouteInfoResponse;
+use PHPUnit\Framework\TestCase;
 
-class RouteResponseInfoTest extends \PHPUnit\Framework\TestCase
+class RouteResponseInfoTest extends TestCase
 {
 
     public function testCreate()

@@ -17,8 +17,9 @@
   ],
   "require": {
     "guzzlehttp/guzzle": "~5.3.1|~6.0",
-    "php": "^7.2",
-    "rakit/validation": "^1.2"
+    "php": ">=7.2",
+    "rakit/validation": "^1.2",
+    "ext-json": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "~7.0"

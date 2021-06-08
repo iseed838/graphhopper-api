@@ -3,12 +3,14 @@
 namespace Graphhopper\Models\Clients;
 
 
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\RouteRequest;
 use Graphhopper\Models\RouteResponse;
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
 use GuzzleHttp\Client;
+use Rakit\Validation\RuleQuashException;
 
 /**
  * Class RouteClient
@@ -46,8 +48,8 @@ class RouteClient
     }
 
     /**
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function check()
     {
@@ -64,9 +66,8 @@ class RouteClient
      * Get patch from point array
      * @param RouteRequest $request
      * @return RouteResponse
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
-     * @throws \ReflectionException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function paths(RouteRequest $request): RouteResponse
     {
@@ -82,9 +83,8 @@ class RouteClient
         }
         $response = $this->getClient()->request('GET', $url, $options);
         $result   = json_decode($response->getBody()->getContents(), true);
-        $model    = new RouteResponse ($result);
 
-        return $model;
+        return new RouteResponse ($result);
     }
 
     /**
@@ -97,7 +97,7 @@ class RouteClient
 
     /**
      * @param null|string $key
-     * @return RouteClient $this;
+     * @return RouteClient
      */
     public function setKey(?string $key): self
     {
@@ -116,7 +116,7 @@ class RouteClient
 
     /**
      * @param int $version
-     * @return RouteClient $this;
+     * @return RouteClient
      */
     public function setVersion(int $version): self
     {
@@ -135,7 +135,7 @@ class RouteClient
 
     /**
      * @param string $url
-     * @return RouteClient $this;
+     * @return RouteClient
      */
     public function setUrl(string $url): self
     {
@@ -154,7 +154,7 @@ class RouteClient
 
     /**
      * @param null|string $basic_auth_username
-     * @return RouteClient $this;
+     * @return RouteClient
      */
     public function setBasicAuthUsername(?string $basic_auth_username): self
     {
@@ -173,7 +173,7 @@ class RouteClient
 
     /**
      * @param null|string $basic_auth_password
-     * @return RouteClient $this;
+     * @return RouteClient
      */
     public function setBasicAuthPassword(?string $basic_auth_password): self
     {
@@ -192,7 +192,7 @@ class RouteClient
 
     /**
      * @param Client $client
-     * @return RouteClient $this;
+     * @return RouteClient
      */
     public function setClient(Client $client): self
     {

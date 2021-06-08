@@ -9,14 +9,17 @@
 namespace unit;
 
 
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\GeocodeQueryRequest;
+use PHPUnit\Framework\TestCase;
+use Rakit\Validation\RuleQuashException;
 
-class GeocodeQueryRequestTest extends \PHPUnit\Framework\TestCase
+class GeocodeQueryRequestTest extends TestCase
 {
     /**
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function testCreate()
     {
@@ -27,7 +30,7 @@ class GeocodeQueryRequestTest extends \PHPUnit\Framework\TestCase
         ]);
         $model->check();
         $this->assertNotEmpty($model);
-        $this->assertInstanceOf(\Graphhopper\Models\GeocodeQueryRequest::class, $model);
+        $this->assertInstanceOf(GeocodeQueryRequest::class, $model);
         $this->assertSame($model->getQuery(), 'Moscow Valilova 6');
         $this->assertSame($model->getLanguage(), Dictionary::LANGUAGE_EN);
         $this->assertSame($model->getLimit(), 3);

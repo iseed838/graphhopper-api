@@ -9,6 +9,7 @@
 namespace Graphhopper\Models\Clients;
 
 
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\GeocodeQueryRequest;
 use Graphhopper\Models\GeocodeReverseRequest;
@@ -16,6 +17,7 @@ use Graphhopper\Models\GeocodeResponse;
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
 use GuzzleHttp\Client;
+use Rakit\Validation\RuleQuashException;
 
 /**
  * Class GeocodeClient
@@ -53,8 +55,8 @@ class GeocodeClient
     }
 
     /**
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function check()
     {
@@ -71,9 +73,8 @@ class GeocodeClient
      * Get query request
      * @param GeocodeQueryRequest $request
      * @return GeocodeResponse
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
-     * @throws \ReflectionException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function query(GeocodeQueryRequest $request): GeocodeResponse
     {
@@ -87,9 +88,8 @@ class GeocodeClient
      *  Get query request
      * @param GeocodeReverseRequest $request
      * @return GeocodeResponse
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
-     * @throws \ReflectionException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function reverse(GeocodeReverseRequest $request): GeocodeResponse
     {
@@ -102,8 +102,7 @@ class GeocodeClient
     /**
      * Make request
      * @param string $query
-     * @return ConfigurableTrait|mixed|null|object
-     * @throws \ReflectionException
+     * @return mixed|null
      */
     private function request(string $query)
     {
@@ -117,9 +116,8 @@ class GeocodeClient
         }
         $response = $this->getClient()->request('GET', $url, $options);
         $result   = json_decode($response->getBody()->getContents(), true);
-        $model    = new GeocodeResponse($result);
 
-        return $model;
+        return new GeocodeResponse($result);
     }
 
     /**
@@ -132,7 +130,7 @@ class GeocodeClient
 
     /**
      * @param null|string $key
-     * @return GeocodeClient $this;
+     * @return GeocodeClient
      */
     public function setKey(?string $key): self
     {
@@ -151,7 +149,7 @@ class GeocodeClient
 
     /**
      * @param int $version
-     * @return GeocodeClient $this;
+     * @return GeocodeClient
      */
     public function setVersion(int $version): self
     {
@@ -170,7 +168,7 @@ class GeocodeClient
 
     /**
      * @param string $language
-     * @return GeocodeClient $this;
+     * @return GeocodeClient
      */
     public function setLanguage(string $language): self
     {
@@ -189,7 +187,7 @@ class GeocodeClient
 
     /**
      * @param string $url
-     * @return GeocodeClient $this;
+     * @return GeocodeClient
      */
     public function setUrl(string $url): self
     {
@@ -208,7 +206,7 @@ class GeocodeClient
 
     /**
      * @param null|string $basic_auth_username
-     * @return GeocodeClient $this;
+     * @return GeocodeClient
      */
     public function setBasicAuthUsername(?string $basic_auth_username): self
     {
@@ -227,7 +225,7 @@ class GeocodeClient
 
     /**
      * @param null|string $basic_auth_password
-     * @return GeocodeClient $this;
+     * @return GeocodeClient
      */
     public function setBasicAuthPassword(?string $basic_auth_password): self
     {
@@ -246,7 +244,7 @@ class GeocodeClient
 
     /**
      * @param Client $client
-     * @return GeocodeClient $this;
+     * @return GeocodeClient
      */
     public function setClient(Client $client): self
     {

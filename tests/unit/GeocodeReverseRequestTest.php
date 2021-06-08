@@ -9,14 +9,17 @@
 namespace unit;
 
 
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\GeocodeReverseRequest;
+use PHPUnit\Framework\TestCase;
+use Rakit\Validation\RuleQuashException;
 
-class GeocodeReverseRequestTest extends \PHPUnit\Framework\TestCase
+class GeocodeReverseRequestTest extends TestCase
 {
     /**
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
+     * @throws ValidException
+     * @throws RuleQuashException
      */
     public function testCreate()
     {
@@ -28,7 +31,7 @@ class GeocodeReverseRequestTest extends \PHPUnit\Framework\TestCase
         ]);
         $model->check();
         $this->assertNotEmpty($model);
-        $this->assertInstanceOf(\Graphhopper\Models\GeocodeReverseRequest::class, $model);
+        $this->assertInstanceOf(GeocodeReverseRequest::class, $model);
         $this->assertSame($model->getPoint(), '55.6916244,37.7225474');
         $this->assertSame($model->getLanguage(), Dictionary::LANGUAGE_EN);
         $this->assertSame($model->getLimit(), 1);

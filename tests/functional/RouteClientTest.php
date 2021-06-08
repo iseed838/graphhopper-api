@@ -9,19 +9,23 @@
 namespace functional;
 
 
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Clients\RouteClient;
 use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\RouteRequest;
 use Graphhopper\Models\RouteResponse;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
+use Rakit\Validation\RuleQuashException;
+use ReflectionException;
 
-class RouteClientTest extends \PHPUnit\Framework\TestCase
+class RouteClientTest extends TestCase
 {
     /**
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
-     * @throws \ReflectionException
+     * @throws ValidException
+     * @throws RuleQuashException
+     * @throws ReflectionException
      */
     public function testPathsRequest()
     {

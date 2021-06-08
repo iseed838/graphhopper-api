@@ -9,6 +9,8 @@
 namespace functional;
 
 
+use Exception;
+use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Clients\GeocodeClient;
 use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\GeocodeQueryRequest;
@@ -16,14 +18,17 @@ use Graphhopper\Models\GeocodeResponse;
 use Graphhopper\Models\GeocodeReverseRequest;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
+use Rakit\Validation\RuleQuashException;
+use ReflectionException;
 
-class GeocodeClientTest extends \PHPUnit\Framework\TestCase
+class GeocodeClientTest extends TestCase
 {
     /**
      * @return GeocodeClient
-     * @throws \Graphhopper\Exceptions\ValidException
-     * @throws \Rakit\Validation\RuleQuashException
-     * @throws \ReflectionException
+     * @throws ValidException
+     * @throws RuleQuashException
+     * @throws ReflectionException
      */
     public function testQueryRequest()
     {
@@ -55,7 +60,7 @@ class GeocodeClientTest extends \PHPUnit\Framework\TestCase
     /**
      * @param GeocodeClient $geocodeClient
      * @depends testQueryRequest
-     * @throws \Exception
+     * @throws Exception
      */
     public function testReverseRequest(GeocodeClient $geocodeClient)
     {
