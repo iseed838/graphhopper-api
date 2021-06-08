@@ -30,7 +30,7 @@ class Dictionary
      * Get available language dictionary
      * @return array
      */
-    public static function getLanguageDictionary()
+    public static function getLanguageDictionary(): array
     {
         return [
             self::LANGUAGE_RU,
@@ -45,7 +45,7 @@ class Dictionary
      * Get available provider dictionary
      * @return array
      */
-    public static function getProviderDictionary()
+    public static function getProviderDictionary(): array
     {
         return [
             self::PROVIDER_DEFAULT,
