@@ -95,7 +95,7 @@ class RouteClient
      * @throws RuleQuashException
      * @throws ValidException
      */
-    public function manyPaths(array $requests): array
+    public function asyncPaths(array $requests): array
     {
         $this->check();
         $options = [];
@@ -111,7 +111,10 @@ class RouteClient
         $results = Utils::settle($promises)->wait();
         $data    = [];
         foreach ($results as $key => $result) {
-            $data[$key] = new RouteResponse(json_decode($result['value']->getBody()->getContents(), true));
+            $response = $result['value'];
+            if (!is_null($response)) {
+                $data[$key] = new RouteResponse(json_decode($response->getBody()->getContents(), true));
+            }
         }
 
         return $data;
