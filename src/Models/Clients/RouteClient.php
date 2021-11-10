@@ -10,6 +10,7 @@ use Graphhopper\Models\RouteResponse;
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
 use GuzzleHttp\Client;
+use GuzzleHttp\Promise\Utils;
 use Rakit\Validation\RuleQuashException;
 
 /**
@@ -84,7 +85,36 @@ class RouteClient
         $response = $this->getClient()->request('GET', $url, $options);
         $result   = json_decode($response->getBody()->getContents(), true);
 
-        return new RouteResponse ($result);
+        return new RouteResponse($result);
+    }
+
+    /**
+     * Get patches from points using asynchronous loading
+     * @param RouteRequest[] $requests
+     * @return RouteResponse[]
+     * @throws RuleQuashException
+     * @throws ValidException
+     */
+    public function manyPaths(array $requests): array
+    {
+        $this->check();
+        $options = [];
+        if (!empty($this->getBasicAuthUsername()) && !empty($this->getBasicAuthPassword())) {
+            $options['auth'] = [$this->getBasicAuthUsername(), $this->getBasicAuthPassword()];
+        }
+        $baseUrl  = "{$this->url}/{$this->version}/route/?" . (!is_null($this->getKey()) ? "key={$this->getKey()}&" : '');
+        $promises = [];
+        foreach ($requests as $key => $request) {
+            $request->check();
+            $promises[$key] = $this->getClient()->getAsync($baseUrl . $request->getQueryString(), $options);
+        }
+        $results = Utils::settle($promises)->wait();
+        $data    = [];
+        foreach ($results as $key => $result) {
+            $data[$key] = new RouteResponse(json_decode($result['value']->getBody()->getContents(), true));
+        }
+
+        return $data;
     }
 
     /**
