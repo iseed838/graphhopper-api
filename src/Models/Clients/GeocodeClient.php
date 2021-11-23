@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: iseed
- * Date: 08.12.19
- * Time: 23:23
- */
 
 namespace Graphhopper\Models\Clients;
-
 
 use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Dictionary;
@@ -62,7 +55,7 @@ class GeocodeClient
     {
         $this->validateOrExcept([
             'key'                 => 'string',
-            'version'             => 'required|integer',
+            'version'             => 'integer',
             'url'                 => 'required|url',
             'basic_auth_username' => 'string',
             'basic_auth_password' => 'string',
@@ -106,7 +99,11 @@ class GeocodeClient
      */
     private function request(string $query)
     {
-        $url = "{$this->url}/{$this->version}/geocode/?{$query}";
+        $url = "{$this->url}";
+        if ($this->version) {
+            $url .= "/{$this->version}";
+        }
+        $url .= "/{$this->version}/geocode/?{$query}";
         if (!is_null($this->getKey())) {
             $url .= "&key={$this->getKey()}";
         }

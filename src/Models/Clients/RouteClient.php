@@ -2,7 +2,6 @@
 
 namespace Graphhopper\Models\Clients;
 
-
 use Graphhopper\Exceptions\ValidException;
 use Graphhopper\Models\Dictionary;
 use Graphhopper\Models\RouteRequest;
@@ -10,6 +9,7 @@ use Graphhopper\Models\RouteResponse;
 use Graphhopper\Traits\ConfigurableTrait;
 use Graphhopper\Traits\ValidatorTrait;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise\Utils;
 use Rakit\Validation\RuleQuashException;
 
@@ -56,7 +56,7 @@ class RouteClient
     {
         $this->validateOrExcept([
             'key'                 => 'string',
-            'version'             => 'required|integer',
+            'version'             => 'integer',
             'url'                 => 'required|url',
             'basic_auth_username' => 'string',
             'basic_auth_password' => 'string',
@@ -67,14 +67,19 @@ class RouteClient
      * Get patch from point array
      * @param RouteRequest $request
      * @return RouteResponse
-     * @throws ValidException
      * @throws RuleQuashException
+     * @throws ValidException
+     * @throws GuzzleException
      */
     public function paths(RouteRequest $request): RouteResponse
     {
         $this->check();
         $request->check();
-        $url = "{$this->url}/{$this->version}/route/?{$request->getQueryString()}";
+        $url = "{$this->url}";
+        if ($this->version) {
+            $url .= "/{$this->version}";
+        }
+        $url .= "/route/?{$request->getQueryString()}";
         if (!is_null($this->getKey())) {
             $url .= "&key={$this->getKey()}";
         }
@@ -102,7 +107,11 @@ class RouteClient
         if (!empty($this->getBasicAuthUsername()) && !empty($this->getBasicAuthPassword())) {
             $options['auth'] = [$this->getBasicAuthUsername(), $this->getBasicAuthPassword()];
         }
-        $baseUrl  = "{$this->url}/{$this->version}/route/?" . (!is_null($this->getKey()) ? "key={$this->getKey()}&" : '');
+        $baseUrl  = "{$this->url}";
+        if ($this->version) {
+            $baseUrl .= "/{$this->version}";
+        }
+        $baseUrl .= "/route/?" . (!is_null($this->getKey()) ? "key={$this->getKey()}&" : '');
         $promises = [];
         foreach ($requests as $key => $request) {
             $request->check();
